@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="state_array">
+        <item>Andhra Pradesh</item>
+        <item>Delhi</item>
+        <item>Maharastra</item>
+        <item>Gujrat</item>
+        <item>Jammu and Kashmir</item>
+        <item>Uttar Pradesh</item>
+        <item>Uttrakhand</item>
+        <item>Bihar</item>
+    </string-array>
+
+    <string-array name="city_array">
+        <item>LaxmiNagar</item>
+        <item>Delhi</item>
+
+    </string-array>
+
+</resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Facility</string>
+    <string name="app_name">Blood Bank Facility</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -7,5 +7,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_result">ResultActivity</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3428945656184402/4518353772</string>
 
 </resources>

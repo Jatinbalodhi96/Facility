@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -10,32 +11,52 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.codemybackend.facility.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/app_bar_main"
+    android:background="#ff8a80">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
         android:orientation="vertical"
         android:weightSum="1"
-        android:layout_alignParentBottom="true">
+        android:id="@+id/linearLayout2">
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Find Blood Banks"
-            android:id="@+id/blood_bank_button"/>
+            android:id="@+id/blood_bank_button"
+            android:background="@color/colorAccent"
+            android:padding="8dp"
+            android:layout_margin="5dp"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Find Hospitals"
-            android:id="@+id/hos_button"/>
+            android:id="@+id/hos_button"
+            android:background="@color/colorAccent"
+            android:padding="8dp"
+            android:layout_margin="5dp"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Show All"/>
+            android:text="Show All"
+            android:background="@color/colorAccent"
+            android:padding="8dp"
+            android:layout_margin="5dp"/>
 
     </LinearLayout>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

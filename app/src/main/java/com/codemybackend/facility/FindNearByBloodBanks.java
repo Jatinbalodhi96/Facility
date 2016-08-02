@@ -3,16 +3,20 @@ package com.codemybackend.facility;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class FindNearByBloodBanks extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private String state;
+    private String stateandUt;
+    private String pincode;
+    private String condition; //for checking the search conditions( maybe picode or state)
+    private Spinner stateSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,28 +24,55 @@ public class FindNearByBloodBanks extends AppCompatActivity implements AdapterVi
         setContentView(R.layout.activity_find_near_by_blood_banks);
 
         // state selection spinner
-        Spinner state_spinner = (Spinner) findViewById(R.id.state_spinner);
+        stateSpinner = (Spinner) findViewById(R.id.state_spinner);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.state_array,
-                android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this
+                ,R.array.state_array, android.R.layout.simple_spinner_item);
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        stateSpinner.setAdapter(adapter);
 
-        state_spinner.setAdapter(adapter);
+        stateSpinner.setOnItemSelectedListener(this);
 
-        Spinner city_spinner = (Spinner) findViewById(R.id.city_spinner);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.city_array,
-                android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        city_spinner.setAdapter(adapter1);
-
-        Button button = (Button) findViewById(R.id.blood_bank_search_button);
-        button.setOnClickListener(
+        //state search button
+        final Button statebutton = (Button) findViewById(R.id.search_with_state);
+        statebutton.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+                        condition = "statebutton";
+                        Intent intent = new Intent(getApplicationContext(), ResultActivityState.class);
+                        intent.putExtra("stateandUt", stateandUt);
+                        intent.putExtra("condition", condition);
                         startActivity(intent);
+                    }
+                }
+        );
+
+
+        //pincode search button
+
+        final EditText[] editText = new EditText[1];
+
+        Button pincodebutton = (Button) findViewById(R.id.search_with_pincode);
+        pincodebutton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        condition = "pincodebutton";
+                        editText[0] = (EditText) findViewById(R.id.pincode_no);
+                        if (editText[0].getText().length() < 6){
+                            Toast.makeText(getApplicationContext(), "Please enter valid pincode", Toast.LENGTH_SHORT).show();
+                        }else {
+                            pincode = String.valueOf(editText[0].getText());
+
+                            Intent intent = new Intent(getApplicationContext(), ResultActivityPincode.class);
+                            intent.putExtra("pincode", pincode);
+                            intent.putExtra("condition", condition);
+                            startActivity(intent);
+                        }
+
                     }
                 }
         );
@@ -49,21 +80,14 @@ public class FindNearByBloodBanks extends AppCompatActivity implements AdapterVi
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-        Spinner spinner = (Spinner) findViewById(R.id.state_spinner);
-        spinner.setOnItemSelectedListener(this);
-        state = parent.getItemAtPosition(pos).toString();
-
-        Log.d("Item", state);
-
-        //Toast.makeText(parent.getContext(), state, Toast.LENGTH_LONG).show();
+        stateandUt = adapterView.getItemAtPosition(i).toString();
+        
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
-
 }

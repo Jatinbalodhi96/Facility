@@ -1,18 +1,12 @@
 package com.codemybackend.facility;
 
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,16 +14,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private float latitude;
     private float longitude;
     private String h_name;
+    private Double my_latitude;
+    private Double my_longitude;
     private GoogleApiClient googleApiClient;
-    private float my_latitude;
-    private float my_longitude;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,98 +36,73 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Bundle bundle = getIntent().getExtras();
 
-        latitude = Float.parseFloat(bundle.getString("latitude"));
-        longitude = Float.parseFloat(bundle.getString("longitude"));
+
+        try {
+            latitude = Float.parseFloat(bundle.getString("latitude"));
+            longitude = Float.parseFloat(bundle.getString("longitude"));
+        } catch (Exception e){
+
+            Toast.makeText(getApplicationContext()
+                    , "Sorry! location is not available for this Blood Bank"
+                    , Toast.LENGTH_LONG).show();
+        }
+
+
+
+
         h_name = bundle.getString("h_name");
+        my_latitude = bundle.getDouble("my_latitude");
+        my_longitude = bundle.getDouble("my_longitude");
 
         TextView textView = (TextView) findViewById(R.id.hname_heading);
         textView.setText("Hospital Name : " + h_name + "\n");
 
-        if (googleApiClient == null) {
-            googleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
+        Location myLocation = new Location("My Location");
+            myLocation.setLatitude(my_latitude);
+            myLocation.setLongitude(my_longitude);
 
+        Location h_location = new Location(h_name);
+            h_location.setLatitude(latitude);
+            h_location.setLongitude(longitude);
+
+            float distance = myLocation.distanceTo(h_location)/1000;
+
+        TextView distanceText = (TextView) findViewById(R.id.distance);
+
+            distanceText.findViewById(R.id.distance);
+            distanceText.setText("Distance from Your Location : " + String.valueOf(distance)+"Km" );
     }
-
-    @Override
-    protected void onStart() {
-        googleApiClient.connect();
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        googleApiClient.disconnect();
-        super.onStop();
-    }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         mMap = googleMap;
+        Bundle bundle = getIntent().getExtras();
 
-        // Add a marker in Sydney and move the camera
-        LatLng requiredLocation = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(requiredLocation)).setTitle(h_name);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(requiredLocation));
+        try {
+            latitude = Float.parseFloat(bundle.getString("latitude"));
+            longitude = Float.parseFloat(bundle.getString("longitude"));
 
-        LatLng myLocation = new LatLng(my_latitude, my_longitude);
-        mMap.addMarker(new MarkerOptions().position(myLocation)).setTitle("My Location");
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
-    }
+            //Adding Blood bank marker on map
+            LatLng requiredLocation = new LatLng(latitude, longitude);
+            mMap.addMarker(new MarkerOptions().position(requiredLocation)).setTitle(h_name);
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(requiredLocation));
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
+            LatLng myLocation = new LatLng(my_latitude, my_longitude);
+            mMap.addMarker(new MarkerOptions().position(myLocation)).setTitle("My Location");
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        } catch (Exception e){
+
+            Toast.makeText(getApplicationContext()
+                    , "Sorry! location is not available for this Blood Bank"
+                    , Toast.LENGTH_LONG).show();
+
+            LatLng myLocation = new LatLng(my_latitude, my_longitude);
+            mMap.addMarker(new MarkerOptions().position(myLocation)).setTitle("My Location");
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
+
         }
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location lastlocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        if (lastlocation != null){
-            my_longitude = Float.parseFloat(String.valueOf(lastlocation.getLongitude()));
-            my_latitude = Float.parseFloat(String.valueOf(lastlocation.getLatitude()));
-
-            Log.d("Tag", String.valueOf(my_latitude + my_longitude));
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
 
     }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
 }

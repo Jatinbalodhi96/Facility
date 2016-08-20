@@ -38,5 +38,8 @@
         <item>West Bengal</item>
     </string-array>
 
+    <string-array name="Hospital_names">
+        <item name="uid">u4f99tn59oNRgHCgJLzaAZHJh9i2</item>
+    </string-array>
 
 </resources>

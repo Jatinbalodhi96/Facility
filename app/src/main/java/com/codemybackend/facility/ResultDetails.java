@@ -108,6 +108,10 @@ public class ResultDetails extends AppCompatActivity {
                 }
         );
 
+        final String shareIntentData = bundle.getString("h_name") +"\n"
+                + bundle.getString("address") +"\n" + bundle.getString("contact") +"\n"
+                + bundle.getString("helpline") + "\n";
+
         final Button shareButton = (Button) findViewById(R.id.share_button);
         shareButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -116,7 +120,7 @@ public class ResultDetails extends AppCompatActivity {
 
                         Intent shareIntent = new Intent();
                         shareIntent.setAction(Intent.ACTION_SEND);
-                        shareIntent.putExtra(Intent.EXTRA_TEXT,"");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT,shareIntentData);
                         shareIntent.setType("text/plain");
                         startActivity(shareIntent);
                     }

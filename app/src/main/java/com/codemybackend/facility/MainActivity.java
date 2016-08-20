@@ -63,13 +63,14 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        Button button1 = (Button) findViewById(R.id.hos_button);
+        Button button1 = (Button) findViewById(R.id.read_data);
         button1.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-
+                        Intent intent = new Intent(getApplicationContext(), BloodUnitActivity.class);
+                        startActivity(intent);
                     }
                 }
         );
@@ -143,13 +144,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -160,8 +156,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    //Notification method
 
  }
 

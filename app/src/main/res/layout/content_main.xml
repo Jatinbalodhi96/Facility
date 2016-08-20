@@ -33,16 +33,8 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Find Hospitals"
-            android:id="@+id/hos_button"
-            android:background="@color/colorAccent"
-            android:padding="8dp"
-            android:layout_margin="5dp"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Show All"
+            android:text="Read Data Firebase Data"
+            android:id="@+id/read_data"
             android:background="@color/colorAccent"
             android:padding="8dp"
             android:layout_margin="5dp"/>

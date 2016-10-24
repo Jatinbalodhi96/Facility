@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -174,6 +175,7 @@ public class ResultActivityState extends AppCompatActivity implements GoogleApiC
         my_latitude = lastlocation.getLatitude();
         my_longitude = lastlocation.getLongitude();
 
+        Log.d("mylat", my_latitude.toString());
     }
 
     @Override
